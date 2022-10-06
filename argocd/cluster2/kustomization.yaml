@@ -1,0 +1,29 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../default
+- apps
+
+nameSuffix: -cluster2
+
+patches:
+  - target:
+      kind: Application
+      name: ".*"
+    patch: |
+      - op: add
+        path: /spec/syncPolicy
+        value:
+          automated:
+            selfHeal: true
+            prune: true
+          syncOptions:
+            - CreateNamespace=true
+
+  - target:
+      kind: Application
+      name: root
+    patch: |
+      - op: replace
+        path: /spec/source/path
+        value: argocd/cluster2

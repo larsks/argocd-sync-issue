@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: operators
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/larsks/argocd-sync-issue.git
+    targetRevision: HEAD
+    path: operators/default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: operators
